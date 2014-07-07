@@ -13,9 +13,9 @@ namespace MobileDetect.Demo
         {
             MobileDetect mobileDetect = new MobileDetect();
 
-            mobileDetect.IsMobile();
+            //mobileDetect.IsMobile();
 
-            mobileDetect.IsTablet();
+            mobileDetect.Is("AndroidOS");
         }
     }
 }

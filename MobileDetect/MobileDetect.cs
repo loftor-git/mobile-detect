@@ -25,9 +25,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -1027,7 +1024,14 @@ namespace MobileDetect
                     Dictionary<string, string[]> tmp = mobileHeader.Value as Dictionary<string, string[]>;
                     if (tmp != null && tmp.ContainsKey("matches"))
                     {
-                        return tmp["matches"].Any(match => HttpHeaders.Get(mobileHeader.Key).Contains(match));
+                        foreach (string match in tmp["matches"])
+                        {
+                            if (HttpHeaders.Get(mobileHeader.Key).Contains(match))
+                            {
+                                return true;
+                            }
+                        }
+                        return false;
                     }
                     return false;
                 }
@@ -1074,12 +1078,9 @@ namespace MobileDetect
     */
         protected bool MatchUAAgainstKey(string key, string userAgent = null)
         {
-            // Make the keys lowercase so we can match: isIphone(), isiPhone(), isiphone(), etc.
-            key = key.ToLower();
-
+            
             //change the keys to lower case
-            KeyValuePair<string, object> rule = GetRules().SingleOrDefault(x => x.Key.ToLower().Equals(key));
-            string regex = rule.Value as string;
+            string regex = GetRules()[key] as string;
             if (!string.IsNullOrEmpty(regex))
             {
                 return Match(regex, userAgent);

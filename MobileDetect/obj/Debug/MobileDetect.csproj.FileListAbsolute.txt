@@ -3,3 +3,8 @@ F:\MobileDetect\MobileDetect\bin\Debug\MobileDetect.pdb
 F:\MobileDetect\MobileDetect\obj\Debug\MobileDetect.csprojResolveAssemblyReference.cache
 F:\MobileDetect\MobileDetect\obj\Debug\MobileDetect.dll
 F:\MobileDetect\MobileDetect\obj\Debug\MobileDetect.pdb
+F:\git\mobile-detect\MobileDetect\bin\Debug\MobileDetect.dll
+F:\git\mobile-detect\MobileDetect\bin\Debug\MobileDetect.pdb
+F:\git\mobile-detect\MobileDetect\obj\Debug\MobileDetect.csprojResolveAssemblyReference.cache
+F:\git\mobile-detect\MobileDetect\obj\Debug\MobileDetect.dll
+F:\git\mobile-detect\MobileDetect\obj\Debug\MobileDetect.pdb
