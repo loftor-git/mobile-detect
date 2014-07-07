@@ -1,0 +1,7 @@
+F:\MobileDetect\MobileDetect.Demo\bin\MobileDetect.Demo.dll
+F:\MobileDetect\MobileDetect.Demo\bin\MobileDetect.Demo.pdb
+F:\MobileDetect\MobileDetect.Demo\bin\MobileDetect.dll
+F:\MobileDetect\MobileDetect.Demo\bin\MobileDetect.pdb
+F:\MobileDetect\MobileDetect.Demo\obj\Debug\MobileDetect.Demo.csprojResolveAssemblyReference.cache
+F:\MobileDetect\MobileDetect.Demo\obj\Debug\MobileDetect.Demo.dll
+F:\MobileDetect\MobileDetect.Demo\obj\Debug\MobileDetect.Demo.pdb

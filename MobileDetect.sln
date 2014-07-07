@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileDetect", "MobileDetect\MobileDetect.csproj", "{9F8C1C1B-741B-41AA-A83B-1F408B9F2F59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileDetect.Demo", "MobileDetect.Demo\MobileDetect.Demo.csproj", "{3463C676-4B81-438B-A41B-BAFEDC5A4E13}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F8C1C1B-741B-41AA-A83B-1F408B9F2F59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F8C1C1B-741B-41AA-A83B-1F408B9F2F59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F8C1C1B-741B-41AA-A83B-1F408B9F2F59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F8C1C1B-741B-41AA-A83B-1F408B9F2F59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3463C676-4B81-438B-A41B-BAFEDC5A4E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3463C676-4B81-438B-A41B-BAFEDC5A4E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3463C676-4B81-438B-A41B-BAFEDC5A4E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3463C676-4B81-438B-A41B-BAFEDC5A4E13}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
