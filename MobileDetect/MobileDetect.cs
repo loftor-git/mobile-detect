@@ -1,25 +1,24 @@
 ﻿/**
- * Mobile Detect Library
+ * Mobile Detect C# Library
  * =====================
  *
- * Motto: "Every business should have a mobile detection script to detect mobile readers"
  *
- * Mobile_Detect is a lightweight PHP class for detecting mobile devices (including tablets).
+ * Mobile_Detect is a lightweight .net class for detecting mobile devices (including tablets).
  * It uses the User-Agent string combined with specific HTTP headers to detect the mobile environment.
  *
- * @author      Current authors: Serban Ghita <serbanghita@gmail.com>, Nick Ilyin <nick.ilyin@gmail.com>
- *              Original author: Victor Stanciu <vic.stanciu@gmail.com>
+ * @author      Loftor <i@loftor.com>
  *
  * @license     Code and contributions have "MIT License"
- *              More details: https://github.com/serbanghita/Mobile-Detect/blob/master/LICENSE.txt
  *
- * @link        Homepage:     http://mobiledetect.net
- *              GitHub Repo:  https://github.com/serbanghita/Mobile-Detect
- *              Google Code:  http://code.google.com/p/php-mobile-detect/
- *              README:       https://github.com/serbanghita/Mobile-Detect/blob/master/README.md
- *              HOWTO:        https://github.com/serbanghita/Mobile-Detect/wiki/Code-examples
+ * @link        Homepage:     http://loftor.com
+ *              GitHub Repo:  https://github.com/loftor-git/mobile-detect
+ *              Git Repo:  http://git.loftor.com/mobile-detect.git/
+ *              README:       https://github.com/loftor-git/mobile-detect/blob/master/README.md
+ *              HOWTO:        https://github.com/loftor-git/mobile-detect/blob/master/README.md
  *
- * @version     2.8.2
+ * @relationproject https://github.com/serbanghita/Mobile-Detect/
+ * 
+ * @version     1.0
  */
 
 using System;
@@ -32,85 +31,59 @@ namespace MobileDetect
 {
     public class MobileDetect
     {
-        /**
-        * Mobile detection type.
-        *
-        * @deprecated since version 2.6.9
-        */
+        /// <summary>
+        /// Mobile detection type.
+        /// </summary>
         public const string DetectionTypeMobile = "mobile";
 
-        /**
-         * Extended detection type.
-         *
-         * @deprecated since version 2.6.9
-         */
+        /// <summary>
+        /// Extended detection type.
+        /// </summary>
         public const string DetectionTypeExtended = "extended";
 
-        /**
-         * A frequently used regular expression to extract version #s.
-         *
-         * @deprecated since version 2.6.9
-         */
+        /// <summary>
+        /// A frequently used regular expression to extract version #s.
+        /// </summary>
         public const string VER = @"([\w._\+]+)";
 
-        /**
-         * Top-level device.
-         */
+        /// <summary>
+        /// Top-level device
+        /// </summary>
         public const string MobileGradeA = "A";
 
-        /**
-         * Mid-level device.
-         */
+        /// <summary>
+        /// Mid-level device.
+        /// </summary>
         public const string MobileGradeB = "B";
 
-        /**
-         * Low-level device.
-         */
+        /// <summary>
+        /// Low-level device.
+        /// </summary>
         public const string MobileGradeC = "C";
 
-        /**
-         * Stores the version number of the current release.
-         */
-        public const string Version = "2.8.2";
+        /// <summary>
+        /// Stores the version number of the current release.
+        /// </summary>
+        public const string Version = "1.0";
 
-        /**
-         * A type for the version() method indicating a string return value.
-         */
-        public const string VersionTypeString = "text";
-
-        /**
-         * A type for the version() method indicating a float return value.
-         */
-        public const string VersionTypeFloat = "float";
-
-        /**
-         * The User-Agent HTTP header is stored in here.
-         * @var string
-         */
+        /// <summary>
+        /// The User-Agent HTTP header is stored in here.
+        /// </summary>
         protected string UserAgent = null;
 
-        /**
-         * HTTP headers in the PHP-flavor. So HTTP_USER_AGENT and SERVER_SOFTWARE.
-         * @var array
-         */
+        /// <summary>
+        /// HTTP headers.
+        /// </summary>
         protected NameValueCollection HttpHeaders = null;
 
-        /**
-         * The detection type, using self::DETECTION_TYPE_MOBILE or self::DETECTION_TYPE_EXTENDED.
-         *
-         * @deprecated since version 2.6.9
-         *
-         * @var string
-         */
+        /// <summary>
+        /// The detection type, using self::DETECTION_TYPE_MOBILE or self::DETECTION_TYPE_EXTENDED.
+        /// </summary>
         protected string DetectionType = DetectionTypeMobile;
 
-        /**
-         * HTTP headers that trigger the "isMobile" detection
-         * to be true.
-         *
-         * @var array
-         */
-
+        /// <summary>
+        /// HTTP headers that trigger the "isMobile" detection
+        /// </summary>
         protected Dictionary<string, object> MobileHeaders = new Dictionary<string, object>
         {
             {
@@ -158,12 +131,9 @@ namespace MobileDetect
             }
         };
 
-        /**
-         * List of mobile devices (phones).
-         *
-         * @var array
-         */
-
+        /// <summary>
+        /// List of mobile devices (phones).
+        /// </summary>
         protected static Dictionary<string, object> PhoneDevices = new Dictionary<string, object>
         {
             {"iPhone", "\biPhone.*Mobile|\biPod"}, // |\biTunes
@@ -229,12 +199,9 @@ namespace MobileDetect
         };
 
 
-        /**
- * List of tablet devices.
- *
- * @var array
- */
-
+        /// <summary>
+        ///  List of tablet devices.
+        /// </summary>
         protected static Dictionary<string, object> TabletDevices = new Dictionary<string, object>
         {
             {"iPad", "iPad|iPad.*Mobile"}, // @todo: check for mobile friendly emails topic.
@@ -520,12 +487,9 @@ namespace MobileDetect
             }
         };
 
-        /**
-         * List of mobile Operating Systems.
-         *
-         * @var array
-         */
-
+        /// <summary>
+        /// List of mobile Operating Systems.
+        /// </summary>
         protected static Dictionary<string, object> OperatingSystems = new Dictionary<string, object>
         {
             {"AndroidOS", "Android"},
@@ -554,12 +518,9 @@ namespace MobileDetect
             {"BREWOS", "BREW"}
         };
 
-        /**
-         * List of mobile User Agents.
-         *
-         * @var array
-         */
-
+        /// <summary>
+        /// List of mobile User Agents.
+        /// </summary>
         protected static Dictionary<string, object> Browsers = new Dictionary<string, object>
         {
             // @reference: https://developers.google.com/chrome/mobile/docs/user-agent
@@ -592,12 +553,9 @@ namespace MobileDetect
             }
         };
 
-        /**
-         * Utilities.
-         *
-         * @var array
-         */
-
+        /// <summary>
+        /// Utilities
+        /// </summary>
         protected static Dictionary<string, object> Utilities = new Dictionary<string, object>
         {
             // Experimental. When a mobile device wants to switch to "Desktop Mode".
@@ -616,13 +574,10 @@ namespace MobileDetect
             {"Watch", "SM-V700"}
         };
 
-        /**
-        * All possible HTTP headers that represent the
-        * User-Agent string.
-        *
-        * @var array
-        */
-
+        /// <summary>
+        /// All possible HTTP headers that represent the 
+        /// User-Agent string
+        /// </summary>
         protected static string[] UAHttpHeaders =
         {
             // The default User-Agent string.
@@ -638,13 +593,10 @@ namespace MobileDetect
             "HTTP_X_UCBROWSER_DEVICE_UA"
         };
 
-        /**
-         * The individual segments that could exist in a User-Agent string. VER refers to the regular
-         * expression defined in the constant self::VER.
-         *
-         * @var array
-         */
-
+        /// <summary>
+        /// The individual segments that could exist in a User-Agent string. VER refers to the regular
+        /// expression defined in the constant self::VER.
+        /// </summary>
         protected static Dictionary<string, object> Properties = new Dictionary<string, object>
         {
 
@@ -685,6 +637,8 @@ namespace MobileDetect
             {"Skyfire", "Skyfire/[VER]"},
             {"Tizen", "Tizen/[VER]"},
             {"Webkit", "webkit[ /][VER]"},
+            {"AppleWebKit", "appleWebKit[ /][VER]"},
+            
 
             // Engine
             {"Gecko", "Gecko/[VER]"},
@@ -708,47 +662,46 @@ namespace MobileDetect
             {"webOS", new[] {"webOS/[VER]", "hpwOS/[VER];"}}
         };
 
-        /**
-         * Construct an instance of this class.
-         *
-         * @param array $headers Specify the headers as injection. Should be PHP _SERVER flavored.
-         *                       If left empty, will use the global _SERVER['HTTP_*'] vars instead.
-         * @param string $userAgent Inject the User-Agent header. If null, will use HTTP_USER_AGENT
-         *                          from the $headers array instead.
-         */
 
+        /**
+ * Construct an instance of this class.
+ *
+ * @param array $headers Specify the headers as injection. Should be PHP _SERVER flavored.
+ *                       If left empty, will use the global _SERVER['HTTP_*'] vars instead.
+ * @param string $userAgent Inject the User-Agent header. If null, will use HTTP_USER_AGENT
+ *                          from the $headers array instead.
+ */
+
+        /// <summary>
+        /// Construct an instance of this class.
+        /// </summary>
+        /// <param name="httpHeaders">HTTP Headers,  if null,will use HttpContext.Current.Request.Headers</param>
+        /// <param name="userAgent">UserAgent, if null will use HttpContext.Current.Request.UserAgent</param>
         public MobileDetect(NameValueCollection httpHeaders = null, string userAgent = null)
         {
             SetHttpHeaders(httpHeaders);
-
             SetUserAgent(userAgent);
         }
 
-        /**
-        * Get the current script version.
-        * This is useful for the demo.php file,
-        * so people can check on what version they are testing
-        * for mobile devices.
-        *
-        * @return string The version number in semantic version format.
-        */
-
+        /// <summary>
+        /// Get the current script version.
+        /// This is useful for the demo.php file,
+        /// so people can check on what version they are testing
+        /// for mobile devices.
+        /// </summary>
+        /// <returns>The version number in semantic version format.</returns>
         public static string GetScriptVersion()
         {
             return Version;
         }
 
-
-        /**
-        * Set the HTTP Headers. Must be PHP-flavored. This method will reset existing headers.
-        *
-        * @param array $httpHeaders The headers to set. If null, then using PHP's _SERVER to extract
-        *                           the headers. The default null is left for backwards compatibilty.
-        */
-
+        /// <summary>
+        /// Set the HTTP Headers. Must be PHP-flavored. This method will reset existing headers.
+        /// </summary>
+        /// <param name="httpHeaders">The headers to set. If null, then using  HttpContext.Current.Request.Headers ,The default null is left for backwards compatibilty.</param>
         public void SetHttpHeaders(NameValueCollection httpHeaders = null)
         {
-            //use global _SERVER if $httpHeaders aren't defined
+            //use HttpContext.Current.Request.Headers if httpHeaders is null
             if (httpHeaders == null)
             {
                 httpHeaders = HttpContext.Current.Request.Headers;
@@ -768,81 +721,56 @@ namespace MobileDetect
             }
         }
 
-        /**
-         * Retrieves the HTTP headers.
-         *
-         * @return array
-         */
-
+        /// <summary>
+        /// Retrieves the HTTP headers.
+        /// </summary>
+        /// <returns></returns>
         public NameValueCollection GetHttpHeaders()
         {
             return HttpHeaders;
         }
 
-        /**
-     * Retrieves a particular header. If it doesn't exist, no exception/error is caused.
-     * Simply null is returned.
-     *
-     * @param string $header The name of the header to retrieve. Can be HTTP compliant such as
-     *                       "User-Agent" or "X-Device-User-Agent" or can be php-esque with the
-     *                       all-caps, HTTP_ prefixed, underscore seperated awesomeness.
-     *
-     * @return string|null The value of the header.
-     */
-
-        public NameValueCollection GetHttpHeaders(NameValueCollection httpHeaders)
-        {
-            return httpHeaders;
-        }
-
+        /// <summary>
+        /// Retrieves the HTTP mobile headers.
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string, object> GetMobileHeaders()
         {
             return MobileHeaders;
         }
 
-        /**
-         * Get all possible HTTP headers that
-         * can contain the User-Agent string.
-         *
-         * @return array List of HTTP headers.
-         */
-
+        /// <summary>
+        /// Get all possible HTTP headers that
+        /// can contain the User-Agent string.
+        /// </summary>
+        /// <returns>HTTP headers</returns>
         public string[] GetUaHttpHeaders()
         {
             return UAHttpHeaders;
         }
 
-        /**
-     * Set the User-Agent to be used.
-     *
-     * @param string $userAgent The user agent string to set.
-     */
-
+        /// <summary>
+        /// Set the User-Agent to be used.
+        /// </summary>
+        /// <param name="userAgent"></param>
         public void SetUserAgent(string userAgent = null)
         {
             UserAgent = !string.IsNullOrEmpty(userAgent) ? userAgent : HttpContext.Current.Request.UserAgent;
         }
 
-        /**
-         * Retrieve the User-Agent.
-         *
-         * @return string|null The user agent if it's set.
-         */
+        /// <summary>
+        /// Retrieve the User-Agent.
+        /// </summary>
+        /// <returns></returns>
         public string GetUserAgent()
         {
             return UserAgent;
         }
 
-
-        /**
-         * Set the detection type. Must be one of self::DETECTION_TYPE_MOBILE or
-         * self::DETECTION_TYPE_EXTENDED. Otherwise, nothing is set.
-         *
-         * @deprecated since version 2.6.9
-         *
-         * @param string $type The type. Must be a self::DETECTION_TYPE_* constant. The default
-         *                     parameter is null which will default to self::DETECTION_TYPE_MOBILE.
-         */
+        /// <summary>
+        /// Set the detection type.
+        /// </summary>
+        /// <param name="type"></param>
         public void SetDetectionType(string type = null)
         {
             if (type == null)
@@ -858,64 +786,56 @@ namespace MobileDetect
             DetectionType = type;
         }
 
-        /**
- * Retrieve the list of known phone devices.
- *
- * @return array List of phone devices.
- */
+        /// <summary>
+        /// Retrieve the list of known phone devices.
+        /// </summary>
+        /// <returns>The list of phone devices</returns>
         public static Dictionary<string, object> GetPhoneDevices()
         {
             return PhoneDevices;
         }
 
-        /**
-         * Retrieve the list of known tablet devices.
-         *
-         * @return array List of tablet devices.
-         */
+        /// <summary>
+        /// Retrieve the list of known tablet devices.
+        /// </summary>
+        /// <returns>The list of tablet devices</returns>
         public static Dictionary<string, object> GetTabletDevices()
         {
             return TabletDevices;
         }
 
-        /**
-         * Alias for getBrowsers() method.
-         *
-         * @return array List of user agents.
-         */
+
+        /// <summary>
+        /// Alias for getBrowsers() method.
+        /// </summary>
+        /// <returns>The list of user agents</returns>
         public static Dictionary<string, object> GetUserAgents()
         {
             return GetBrowsers();
         }
 
-        /**
-         * Retrieve the list of known browsers. Specifically, the user agents.
-         *
-         * @return array List of browsers / user agents.
-         */
+        /// <summary>
+        /// Retrieve the list of known browsers. Specifically, the user agents.
+        /// </summary>
+        /// <returns>The list of browsers / user agents</returns>
         public static Dictionary<string, object> GetBrowsers()
         {
             return Browsers;
         }
 
-        /**
-         * Retrieve the list of known utilities.
-         *
-         * @return array List of utilities.
-         */
+        /// <summary>
+        /// Retrieve the list of known utilities.
+        /// </summary>
+        /// <returns>utilities</returns>
         public static Dictionary<string, object> GetUtilities()
         {
             return Utilities;
         }
 
-
-        /**
-         * Method gets the mobile detection rules. This method is used for the magic methods $detect->is*().
-         *
-         * @deprecated since version 2.6.9
-         *
-         * @return array All the rules (but not extended).
-         */
+        /// <summary>
+        /// Method gets the mobile detection rules.
+        /// </summary>
+        /// <returns>All the rules (but not extended)</returns>
         public static Dictionary<string, object> GetMobileDetectionRules()
         {
             Dictionary<string, object> rules = new Dictionary<string, object> { };
@@ -944,19 +864,13 @@ namespace MobileDetect
 
         }
 
-        /**
-         * Method gets the mobile detection rules + utilities.
-         * The reason this is separate is because utilities rules
-         * don't necessary imply mobile. This method is used inside
-         * the new $detect->is('stuff') method.
-         *
-         * @deprecated since version 2.6.9
-         *
-         * @return array All the rules + extended.
-         */
+        /// <summary>
+        /// Method gets the mobile detection rules + utilities.
+        /// </summary>
+        /// <returns></returns>
         public static Dictionary<string, object> GetMobileDetectionRulesExtended()
         {
-            Dictionary<string, object> rules = new Dictionary<string, object> { };
+            Dictionary<string, object> rules = new Dictionary<string, object>();
             foreach (KeyValuePair<string, object> keyValuePair in PhoneDevices)
             {
                 rules.Add(keyValuePair.Key, keyValuePair.Value);
@@ -981,40 +895,34 @@ namespace MobileDetect
             {
                 rules.Add(keyValuePair.Key, keyValuePair.Value);
             }
-          
+
             return rules;
         }
 
-        /**
-          * Retrieve the current set of rules.
-          *
-          * @deprecated since version 2.6.9
-          *
-          * @return array
-          */
+        /// <summary>
+        /// Retrieve the current set of rules.
+        /// </summary>
+        /// <returns>The list of rule</returns>
         public Dictionary<string, object> GetRules()
         {
             return DetectionType == DetectionTypeExtended ? GetMobileDetectionRulesExtended() : GetMobileDetectionRules();
         }
 
-        /**
-         * Retrieve the list of mobile operating systems.
-         *
-         * @return array The list of mobile operating systems.
-         */
+        /// <summary>
+        /// Retrieve the list of mobile operating systems.
+        /// </summary>
+        /// <returns>The list of mobile operating systems</returns>
         public static Dictionary<string, object> GetOperatingSystems()
         {
             return OperatingSystems;
         }
 
-
-        /**
-        * Check the HTTP headers for signs of mobile.
-        * This is the fastest mobile check possible; it's used
-        * inside isMobile() method.
-        *
-        * @return bool
-        */
+        /// <summary>
+        /// Check the HTTP headers for signs of mobile.
+        /// This is the fastest mobile check possible; it's used
+        /// inside isMobile() method.
+        /// </summary>
+        /// <returns></returns>
         public bool CheckHttpHeadersForMobile()
         {
             foreach (KeyValuePair<string, object> mobileHeader in GetMobileHeaders())
@@ -1039,13 +947,11 @@ namespace MobileDetect
             return false;
         }
 
-
-        /**
-       * Find a detection rule that matches the current User-agent.
-       *
-       * @param null $userAgent deprecated
-       * @return boolean
-       */
+        /// <summary>
+        /// Find a detection rule that matches the current User-agent.
+        /// </summary>
+        /// <param name="userAgent"></param>
+        /// <returns></returns>
         protected bool MatchDetectionRulesAgainstUA(string userAgent = null)
         {
 
@@ -1067,18 +973,17 @@ namespace MobileDetect
             return false;
         }
 
-        /**
-    * Search for a certain key in the rules array.
-    * If the key is found the try to match the corresponding
-    * regex agains the User-Agent.
-    *
-    * @param string $key
-    * @param null $userAgent deprecated
-    * @return mixed
-    */
+        /// <summary>
+        /// Search for a certain key in the rules array.
+        /// If the key is found the try to match the corresponding
+        /// regex agains the User-Agent.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="userAgent"></param>
+        /// <returns></returns>
         protected bool MatchUAAgainstKey(string key, string userAgent = null)
         {
-            
+
             //change the keys to lower case
             string regex = GetRules()[key] as string;
             if (!string.IsNullOrEmpty(regex))
@@ -1089,13 +994,13 @@ namespace MobileDetect
             return false;
         }
 
-        /**
-        * Check if the device is mobile.
-        * Returns true if any type of mobile device detected, including special ones
-        * @param null $userAgent deprecated
-        * @param null $httpHeaders deprecated
-        * @return bool
-        */
+        /// <summary>
+        /// Check if the device is mobile.
+        /// Returns true if any type of mobile device detected, including special ones
+        /// </summary>
+        /// <param name="userAgent"></param>
+        /// <param name="httpHeaders"></param>
+        /// <returns></returns>
         public bool IsMobile(string userAgent = null, NameValueCollection httpHeaders = null)
         {
 
@@ -1103,28 +1008,23 @@ namespace MobileDetect
 
             SetUserAgent(userAgent);
 
-
             SetDetectionType(DetectionTypeMobile);
 
             if (CheckHttpHeadersForMobile())
             {
                 return true;
             }
-            else
-            {
-                return MatchDetectionRulesAgainstUA();
-            }
+
+            return MatchDetectionRulesAgainstUA();
         }
 
-
-        /**
-     * Check if the device is a tablet.
-     * Return true if any type of tablet device is detected.
-     *
-     * @param  string $userAgent   deprecated
-     * @param  array  $httpHeaders deprecated
-     * @return bool
-     */
+        /// <summary>
+        /// Check if the device is a tablet.
+        /// Return true if any type of tablet device is detected.
+        /// </summary>
+        /// <param name="userAgent"></param>
+        /// <param name="httpHeaders"></param>
+        /// <returns></returns>
         public bool IsTablet(string userAgent = null, NameValueCollection httpHeaders = null)
         {
             SetDetectionType(DetectionTypeMobile);
@@ -1141,16 +1041,13 @@ namespace MobileDetect
         }
 
 
-        /**
-         * This method checks for a certain property in the
-         * userAgent.
-         * @todo: The httpHeaders part is not yet used.
-         *
-         * @param $key
-         * @param  string        $userAgent   deprecated
-         * @param  string        $httpHeaders deprecated
-         * @return bool|int|null
-         */
+        /// <summary>
+        /// This method checks for a certain property in the userAgent.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="userAgent"></param>
+        /// <param name="httpHeaders"></param>
+        /// <returns></returns>
         public bool Is(string key, string userAgent = null, NameValueCollection httpHeaders = null)
         {
             SetHttpHeaders(httpHeaders);
@@ -1162,23 +1059,17 @@ namespace MobileDetect
             return MatchUAAgainstKey(key);
         }
 
-
-
-        /**
-         * Some detection rules are relative (not standard),
-         * because of the diversity of devices, vendors and
-         * their conventions in representing the User-Agent or
-         * the HTTP headers.
-         *
-         * This method will be used to check custom regexes against
-         * the User-Agent string.
-         *
-         * @param $regex
-         * @param  string $userAgent
-         * @return bool
-         *
-         * @todo: search in the HTTP headers too.
-         */
+        /// <summary>
+        ///  Some detection rules are relative (not standard),
+        ///  because of the diversity of devices, vendors and
+        ///  their conventions in representing the User-Agent or
+        ///  the HTTP headers.
+        /// This method will be used to check custom regexes against
+        /// the User-Agent string.
+        /// </summary>
+        /// <param name="regex"></param>
+        /// <param name="userAgent"></param>
+        /// <returns></returns>
         public bool Match(string regex, string userAgent = null)
         {
             Regex r = new Regex(regex);
@@ -1189,218 +1080,224 @@ namespace MobileDetect
             return r.IsMatch(userAgent);
         }
 
-         /**
-         * Get the properties array.
-         *
-         * @return array
-         */
+        /// <summary>
+        /// Get the properties array.
+        /// </summary>
+        /// <returns></returns>
         public static Dictionary<string, object> GetProperties()
         {
             return Properties;
         }
 
-            /**
-             * Prepare the version number.
-             *
-             * @todo Remove the error supression from str_replace() call.
-             *
-             * @param string $ver The string version, like "2.6.21.2152";
-             *
-             * @return float
-             */
-            public float PrepareVersionNo(string ver)
+        /// <summary>
+        /// Prepare the version number.
+        /// </summary>
+        /// <param name="ver"></param>
+        /// <returns></returns>
+        public float PrepareVersionNo(string ver)
+        {
+            ver = ver.Replace('_', '.').Replace('/', '.');
+            string[] arrVer = ver.Split(new[] { '.' }, 2);
+            if (arrVer.Length > 1)
             {
-                ver = ver.Replace('_','.').Replace('/','.') as String;
-                string[] arrVer = ver.Split(new []{'.'},2);
-                if (arrVer.Length>1)
-                {
-                    arrVer[1] = arrVer[1].Replace(".", "");
-                }
-
-                return float.Parse(arrVer[0]+arrVer[1]);
+                arrVer[1] = arrVer[1].Replace(".", "");
             }
 
+            return float.Parse(arrVer[0] + arrVer[1]);
+        }
 
-           /**
-     * Check the version of the given property in the User-Agent.
-     * Will return a float number. (eg. 2_0 will return 2.0, 4.3.1 will return 4.31)
-     *
-     * @param string $propertyName The name of the property. See self::getProperties() array
-     *                              keys for all possible properties.
-     * @param string $type Either self::VERSION_TYPE_STRING to get a string value or
-     *                      self::VERSION_TYPE_FLOAT indicating a float value. This parameter
-     *                      is optional and defaults to self::VERSION_TYPE_STRING. Passing an
-     *                      invalid parameter will default to the this type as well.
-     *
-     * @return string|float The version of the property we are trying to extract.
-     */
-    //public string GetVersion(string propertyName, string type = VersionTypeString)
-    //{
-    //    if (string.IsNullOrEmpty(propertyName)) {
-    //        return null;
-    //    }
+        /// <summary>
+        /// Check the version of the given property in the User-Agent.
+        /// </summary>
+        /// <param name="propertyName">The name of the property. </param>
+        /// <returns></returns>
+        public string GetVersion(string propertyName)
+        {
+            if (string.IsNullOrEmpty(propertyName))
+            {
+                return null;
+            }
 
-    //    //set the $type to the default if we don't recognize the type
-    //    if (type !=VersionTypeString && type != VersionTypeFloat) {
-    //        type = VersionTypeString;
-    //    }
+            Dictionary<string, object> properties = GetProperties();
 
-    //    Dictionary<string,object> properties = GetProperties();
+            // Check if the property exists in the properties array.
+            if (properties.ContainsKey(propertyName))
+            {
 
-    //    // Check if the property exists in the properties array.
-    //    if (array_key_exists($propertyName, $properties)) {
+                string[] propertyMatchStrings;
+                if (properties[propertyName] is string)
+                {
+                    propertyMatchStrings = new[] { (string)properties[propertyName] };
+                }
+                else
+                {
+                    propertyMatchStrings = (string[])properties[propertyName];
+                }
 
-    //        // Prepare the pattern to be matched.
-    //        // Make sure we always deal with an array (string is converted).
-    //        $properties[$propertyName] = (array) $properties[$propertyName];
+                foreach (string propertyMatchString in propertyMatchStrings)
+                {
+                    string propertyPattern = propertyMatchString.Replace("[VER]", VER).Replace("/", @"\/");
+                    Regex r = new Regex(propertyPattern);
+                    Match match = r.Match(UserAgent);
+                    if (match.Success)
+                    {
+                        string version = match.Groups[1].Value;
+                        return version;
+                    }
+                }
+            }
 
-    //        foreach ($properties[$propertyName] as $propertyMatchString) {
-
-    //            $propertyPattern = str_replace('[VER]', self::VER, $propertyMatchString);
-
-    //            // Escape the special character which is the delimiter.
-    //            $propertyPattern = str_replace('/', '\/', $propertyPattern);
-
-    //            // Identify and extract the version.
-    //            preg_match('/'.$propertyPattern.'/is', $this->userAgent, $match);
-
-    //            if (!empty($match[1])) {
-    //                $version = ( $type == self::VERSION_TYPE_FLOAT ? $this->prepareVersionNo($match[1]) : $match[1] );
-
-    //                return $version;
-    //            }
-
-    //        }
-
-    //    }
-
-    //    return false;
-    //}
+            return null;
+        }
 
 
-        
-    /**
-     * Retrieve the mobile grading, using self::MOBILE_GRADE_* constants.
-     *
-     * @return string One of the self::MOBILE_GRADE_* constants.
-     */
-    //public function mobileGrade()
-    //{
-    //    $isMobile = $this->isMobile();
+        /// <summary>
+        /// Check the version of the given property in the User-Agent.
+        /// return a float number. (eg. 2_0 will return 2.0, 4.3.1 will return 4.31)
+        /// </summary>
+        /// <param name="propertyName">The name of the property. </param>
+        /// <returns></returns>
+        public float? GetVersionFloat(string propertyName)
+        {
+            try
+            {
+                string version = GetVersion(propertyName);
+                if (!string.IsNullOrEmpty(version))
+                {
+                    return PrepareVersionNo(version);
+                }
+            }
+            catch(Exception)
+            {
+                return null;
+            }
+            return null;
+        }
 
-    //    if (
-    //        // Apple iOS 3.2-5.1 - Tested on the original iPad (4.3 / 5.0), iPad 2 (4.3), iPad 3 (5.1), original iPhone (3.1), iPhone 3 (3.2), 3GS (4.3), 4 (4.3 / 5.0), and 4S (5.1)
-    //        $this->isIOS() && $this->version('iPad', self::VERSION_TYPE_FLOAT)>=4.3 ||
-    //        $this->isIOS() && $this->version('iPhone', self::VERSION_TYPE_FLOAT)>=3.1 ||
-    //        $this->isIOS() && $this->version('iPod', self::VERSION_TYPE_FLOAT)>=3.1 ||
+        /// <summary>
+        /// Retrieve the mobile grading.
+        /// </summary>
+        /// <returns></returns>
+        public string MobileGrade()
+        {
+            bool isMobile = IsMobile();
 
-    //        // Android 2.1-2.3 - Tested on the HTC Incredible (2.2), original Droid (2.2), HTC Aria (2.1), Google Nexus S (2.3). Functional on 1.5 & 1.6 but performance may be sluggish, tested on Google G1 (1.5)
-    //        // Android 3.1 (Honeycomb)  - Tested on the Samsung Galaxy Tab 10.1 and Motorola XOOM
-    //        // Android 4.0 (ICS)  - Tested on a Galaxy Nexus. Note: transition performance can be poor on upgraded devices
-    //        // Android 4.1 (Jelly Bean)  - Tested on a Galaxy Nexus and Galaxy 7
-    //        ( $this->version('Android', self::VERSION_TYPE_FLOAT)>2.1 && $this->is('Webkit') ) ||
+            if (
 
-    //        // Windows Phone 7-7.5 - Tested on the HTC Surround (7.0) HTC Trophy (7.5), LG-E900 (7.5), Nokia Lumia 800
-    //        $this->version('Windows Phone OS', self::VERSION_TYPE_FLOAT)>=7.0 ||
+                // Apple iOS 3.2-5.1 - Tested on the original iPad (4.3 / 5.0), iPad 2 (4.3), iPad 3 (5.1), original iPhone (3.1), iPhone 3 (3.2), 3GS (4.3), 4 (4.3 / 5.0), and 4S (5.1)
+                Is("IOS") && GetVersionFloat("iPad") >= 4.3 ||
+                Is("IOS") && GetVersionFloat("iPhone") >= 3.1 ||
+                Is("IOS") && GetVersionFloat("iPod") >= 3.1 ||
 
-    //        // Blackberry 7 - Tested on BlackBerry Torch 9810
-    //        // Blackberry 6.0 - Tested on the Torch 9800 and Style 9670
-    //        $this->is('BlackBerry') && $this->version('BlackBerry', self::VERSION_TYPE_FLOAT)>=6.0 ||
-    //        // Blackberry Playbook (1.0-2.0) - Tested on PlayBook
-    //        $this->match('Playbook.*Tablet') ||
+                // Android 2.1-2.3 - Tested on the HTC Incredible (2.2), original Droid (2.2), HTC Aria (2.1), Google Nexus S (2.3). Functional on 1.5 & 1.6 but performance may be sluggish, tested on Google G1 (1.5)
+                // Android 3.1 (Honeycomb)  - Tested on the Samsung Galaxy Tab 10.1 and Motorola XOOM
+                // Android 4.0 (ICS)  - Tested on a Galaxy Nexus. Note: transition performance can be poor on upgraded devices
+                // Android 4.1 (Jelly Bean)  - Tested on a Galaxy Nexus and Galaxy 7
+                (GetVersionFloat("Android") > 2.1 && Is("Webkit")) ||
 
-    //        // Palm WebOS (1.4-2.0) - Tested on the Palm Pixi (1.4), Pre (1.4), Pre 2 (2.0)
-    //        ( $this->version('webOS', self::VERSION_TYPE_FLOAT)>=1.4 && $this->match('Palm|Pre|Pixi') ) ||
-    //        // Palm WebOS 3.0  - Tested on HP TouchPad
-    //        $this->match('hp.*TouchPad') ||
+                // Windows Phone 7-7.5 - Tested on the HTC Surround (7.0) HTC Trophy (7.5), LG-E900 (7.5), Nokia Lumia 800
+                GetVersionFloat("Windows Phone OS") >= 7.0 ||
 
-    //        // Firefox Mobile (12 Beta) - Tested on Android 2.3 device
-    //        ( $this->is('Firefox') && $this->version('Firefox', self::VERSION_TYPE_FLOAT)>=12 ) ||
+                // Blackberry 7 - Tested on BlackBerry Torch 9810
+                // Blackberry 6.0 - Tested on the Torch 9800 and Style 9670
+                Is("BlackBerry") && GetVersionFloat("BlackBerry") >= 6.0 ||
+                // Blackberry Playbook (1.0-2.0) - Tested on PlayBook
+                Match("Playbook.*Tablet") ||
 
-    //        // Chrome for Android - Tested on Android 4.0, 4.1 device
-    //        ( $this->is('Chrome') && $this->is('AndroidOS') && $this->version('Android', self::VERSION_TYPE_FLOAT)>=4.0 ) ||
+                // Palm WebOS (1.4-2.0) - Tested on the Palm Pixi (1.4), Pre (1.4), Pre 2 (2.0)
+                (GetVersionFloat("webOS") >= 1.4 && Match("Palm|Pre|Pixi")) ||
+                // Palm WebOS 3.0  - Tested on HP TouchPad
+                Match("hp.*TouchPad") ||
 
-    //        // Skyfire 4.1 - Tested on Android 2.3 device
-    //        ( $this->is('Skyfire') && $this->version('Skyfire', self::VERSION_TYPE_FLOAT)>=4.1 && $this->is('AndroidOS') && $this->version('Android', self::VERSION_TYPE_FLOAT)>=2.3 ) ||
+                // Firefox Mobile (12 Beta) - Tested on Android 2.3 device
+                (Is("Firefox") && GetVersionFloat("Firefox") >= 12) ||
 
-    //        // Opera Mobile 11.5-12: Tested on Android 2.3
-    //        ( $this->is('Opera') && $this->version('Opera Mobi', self::VERSION_TYPE_FLOAT)>11 && $this->is('AndroidOS') ) ||
+                // Chrome for Android - Tested on Android 4.0, 4.1 device
+                (Is("Chrome") && Is("AndroidOS") && GetVersionFloat("Android") >= 4.0) ||
 
-    //        // Meego 1.2 - Tested on Nokia 950 and N9
-    //        $this->is('MeeGoOS') ||
+                // Skyfire 4.1 - Tested on Android 2.3 device
+                (Is("Skyfire") && GetVersionFloat("Skyfire") >= 4.1 && Is("AndroidOS") && GetVersionFloat("Android") >= 2.3) ||
 
-    //        // Tizen (pre-release) - Tested on early hardware
-    //        $this->is('Tizen') ||
+                // Opera Mobile 11.5-12: Tested on Android 2.3
+                (Is("Opera") && GetVersionFloat("Opera Mobi") > 11 && Is("AndroidOS")) ||
 
-    //        // Samsung Bada 2.0 - Tested on a Samsung Wave 3, Dolphin browser
-    //        // @todo: more tests here!
-    //        $this->is('Dolfin') && $this->version('Bada', self::VERSION_TYPE_FLOAT)>=2.0 ||
+                // Meego 1.2 - Tested on Nokia 950 and N9
+                Is("MeeGoOS") ||
 
-    //        // UC Browser - Tested on Android 2.3 device
-    //        ( ($this->is('UC Browser') || $this->is('Dolfin')) && $this->version('Android', self::VERSION_TYPE_FLOAT)>=2.3 ) ||
+                // Tizen (pre-release) - Tested on early hardware
+                Is("Tizen") ||
 
-    //        // Kindle 3 and Fire  - Tested on the built-in WebKit browser for each
-    //        ( $this->match('Kindle Fire') ||
-    //        $this->is('Kindle') && $this->version('Kindle', self::VERSION_TYPE_FLOAT)>=3.0 ) ||
+                // Samsung Bada 2.0 - Tested on a Samsung Wave 3, Dolphin browser
+                // @todo: more tests here!
+                Is("Dolfin") && GetVersionFloat("Bada") >= 2.0 ||
 
-    //        // Nook Color 1.4.1 - Tested on original Nook Color, not Nook Tablet
-    //        $this->is('AndroidOS') && $this->is('NookTablet') ||
+                // UC Browser - Tested on Android 2.3 device
+                ((Is("UC Browser") || Is("Dolfin")) && GetVersionFloat("Android") >= 2.3) ||
 
-    //        // Chrome Desktop 11-21 - Tested on OS X 10.7 and Windows 7
-    //        $this->version('Chrome', self::VERSION_TYPE_FLOAT)>=11 && !$isMobile ||
+                // Kindle 3 and Fire  - Tested on the built-in WebKit browser for each
+                (Match("Kindle Fire") ||
+                Is("Kindle") && GetVersionFloat("Kindle") >= 3.0) ||
 
-    //        // Safari Desktop 4-5 - Tested on OS X 10.7 and Windows 7
-    //        $this->version('Safari', self::VERSION_TYPE_FLOAT)>=5.0 && !$isMobile ||
+                // Nook Color 1.4.1 - Tested on original Nook Color, not Nook Tablet
+                Is("AndroidOS") && Is("NookTablet") ||
 
-    //        // Firefox Desktop 4-13 - Tested on OS X 10.7 and Windows 7
-    //        $this->version('Firefox', self::VERSION_TYPE_FLOAT)>=4.0 && !$isMobile ||
+                // Chrome Desktop 11-21 - Tested on OS X 10.7 and Windows 7
+                GetVersionFloat("Chrome") >= 11 && !isMobile ||
 
-    //        // Internet Explorer 7-9 - Tested on Windows XP, Vista and 7
-    //        $this->version('MSIE', self::VERSION_TYPE_FLOAT)>=7.0 && !$isMobile ||
+                // Safari Desktop 4-5 - Tested on OS X 10.7 and Windows 7
+                GetVersionFloat("Safari") >= 5.0 && !isMobile ||
 
-    //        // Opera Desktop 10-12 - Tested on OS X 10.7 and Windows 7
-    //        // @reference: http://my.opera.com/community/openweb/idopera/
-    //        $this->version('Opera', self::VERSION_TYPE_FLOAT)>=10 && !$isMobile
+                // Firefox Desktop 4-13 - Tested on OS X 10.7 and Windows 7
+                GetVersionFloat("Firefox") >= 4.0 && !isMobile ||
 
-    //    ){
-    //        return self::MOBILE_GRADE_A;
-    //    }
+                // Internet Explorer 7-9 - Tested on Windows XP, Vista and 7
+                GetVersionFloat("MSIE") >= 7.0 && !isMobile ||
 
-    //    if (
-    //        $this->isIOS() && $this->version('iPad', self::VERSION_TYPE_FLOAT)<4.3 ||
-    //        $this->isIOS() && $this->version('iPhone', self::VERSION_TYPE_FLOAT)<3.1 ||
-    //        $this->isIOS() && $this->version('iPod', self::VERSION_TYPE_FLOAT)<3.1 ||
+                // Opera Desktop 10-12 - Tested on OS X 10.7 and Windows 7
+                // @reference: http://my.opera.com/community/openweb/idopera/
+                GetVersionFloat("Opera") >= 10 && !isMobile
+            )
+            {
+                return MobileGradeA;
+            }
 
-    //        // Blackberry 5.0: Tested on the Storm 2 9550, Bold 9770
-    //        $this->is('Blackberry') && $this->version('BlackBerry', self::VERSION_TYPE_FLOAT)>=5 && $this->version('BlackBerry', self::VERSION_TYPE_FLOAT)<6 ||
+            if (
+                Is("IOS") && GetVersionFloat("iPad") < 4.3 ||
+                Is("IOS") && GetVersionFloat("iPhone") < 3.1 ||
+                Is("IOS") && GetVersionFloat("iPod") < 3.1 ||
 
-    //        //Opera Mini (5.0-6.5) - Tested on iOS 3.2/4.3 and Android 2.3
-    //        ( $this->version('Opera Mini', self::VERSION_TYPE_FLOAT)>=5.0 && $this->version('Opera Mini', self::VERSION_TYPE_FLOAT)<=6.5 &&
-    //        ($this->version('Android', self::VERSION_TYPE_FLOAT)>=2.3 || $this->is('iOS')) ) ||
+                // Blackberry 5.0: Tested on the Storm 2 9550, Bold 9770
+                Is("Blackberry") && GetVersionFloat("BlackBerry") >= 5 && GetVersionFloat("BlackBerry") < 6 ||
 
-    //        // Nokia Symbian^3 - Tested on Nokia N8 (Symbian^3), C7 (Symbian^3), also works on N97 (Symbian^1)
-    //        $this->match('NokiaN8|NokiaC7|N97.*Series60|Symbian/3') ||
+                //Opera Mini (5.0-6.5) - Tested on iOS 3.2/4.3 and Android 2.3
+                (GetVersionFloat("Opera Mini") >= 5.0 && GetVersionFloat("Opera Mini") <= 6.5 &&
+                (GetVersionFloat("Android") >= 2.3 || Is("iOS"))) ||
 
-    //        // @todo: report this (tested on Nokia N71)
-    //        $this->version('Opera Mobi', self::VERSION_TYPE_FLOAT)>=11 && $this->is('SymbianOS')
-    //    ){
-    //        return self::MOBILE_GRADE_B;
-    //    }
+                // Nokia Symbian^3 - Tested on Nokia N8 (Symbian^3), C7 (Symbian^3), also works on N97 (Symbian^1)
+                Match("NokiaN8|NokiaC7|N97.*Series60|Symbian/3") ||
 
-    //    if (
-    //        // Blackberry 4.x - Tested on the Curve 8330
-    //        $this->version('BlackBerry', self::VERSION_TYPE_FLOAT)<5.0 ||
-    //        // Windows Mobile - Tested on the HTC Leo (WinMo 5.2)
-    //        $this->match('MSIEMobile|Windows CE.*Mobile') || $this->version('Windows Mobile', self::VERSION_TYPE_FLOAT)<=5.2
+                // @todo: report this (tested on Nokia N71)
+                GetVersionFloat("Opera Mobi") >= 11 && Is("SymbianOS")
+            )
+            {
+                return MobileGradeB;
+            }
 
-    //    ){
-    //        return self::MOBILE_GRADE_C;
-    //    }
+            if (
+                // Blackberry 4.x - Tested on the Curve 8330
+                GetVersionFloat("BlackBerry") < 5.0 ||
+                // Windows Mobile - Tested on the HTC Leo (WinMo 5.2)
+                Match("MSIEMobile|Windows CE.*Mobile") || GetVersionFloat("Windows Mobile") <= 5.2
 
-    //    //All older smartphone platforms and featurephones - Any device that doesn't support media queries
-    //    //will receive the basic, C grade experience.
-    //    return self::MOBILE_GRADE_C;
-    //}
+            )
+            {
+                return MobileGradeC;
+            }
+
+            //All older smartphone platforms and featurephones - Any device that doesn"t support media queries
+            //will receive the basic, C grade experience.
+            return MobileGradeC;
+        }
 
     }
 }
